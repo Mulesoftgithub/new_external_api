@@ -1,0 +1,29 @@
+%dw 2.0
+
+type auto_fbd71c4e_bedb_4f88_8ced_6c8b981a05b5_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    "X-RapidAPI-Key": String, 
+    "X-RapidAPI-Host": String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|
+    id: Number, 
+    sourceId: String
+  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+

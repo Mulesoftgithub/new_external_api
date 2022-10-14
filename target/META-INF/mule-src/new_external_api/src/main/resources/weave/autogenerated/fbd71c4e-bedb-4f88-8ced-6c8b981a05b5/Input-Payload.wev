@@ -1,0 +1,58 @@
+%dw 2.0
+
+type auto_fbd71c4e_bedb_4f88_8ced_6c8b981a05b5_Input_Payload = {|
+  id: String, 
+  sourceId: String, 
+  sourceName: String, 
+  providerName: String, 
+  title: String, 
+  publishedDate: String, 
+  body: Array<{|    "type": String,     contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    content: String, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    contentObject: Array<{|      "type": String,       content: String,       gated: Boolean    |}>, 
+    gated: Boolean
+  |} | {|
+    "type": String, 
+    content: String, 
+    gated: Boolean
+  |}>
+|}
+

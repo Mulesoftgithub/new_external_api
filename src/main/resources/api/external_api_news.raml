@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: External_Api_News
+version: 1.0.development
+description: This API consumes the MS Finance API.
+
+types:
+  newsResponse: !include dataTypes/newsresponse.raml
+  newsDetailResponse: !include dataTypes/newsdetailresponse.raml
+
+
+/list:
+  get:
+    description: GET All News
+    responses:
+      200:
+        body:
+          application/json:
+            type: newsResponse[]
+            example: !include examples/news_response.json
+
+
+/get-details:
+  get:
+    description: GET News Details By providing NewsID and SourceId
+    queryParameters:
+      id: number
+      sourceId: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: newsDetailResponse
+            example: !include examples/news_detail_response.json
+
+        
+
+    
+    

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="HTTP_Get_All_configuration" doc:name="HTTP Request configuration" doc:id="971a32aa-0ac1-47f1-95c9-2f04700e727d" >
+		<http:request-connection protocol="HTTPS" host="ms-finance.p.rapidapi.com" />
+		<http:default-headers >
+			<http:default-header key="X-RapidAPI-Key" value="de600e92f3mshbbe18cbc3b5395dp17d93ajsn7973ab2bbec3" />
+			<http:default-header key="X-RapidAPI-Host" value="ms-finance.p.rapidapi.com" />
+		</http:default-headers>
+		<http:default-query-params >
+			<http:query-param key="performanceId" value="0P0000OQN8" />
+		</http:default-query-params>
+	</http:request-config>
+	<http:request-config name="HTTP_List_Details_configuration" doc:name="HTTP Request configuration" doc:id="9bb4194c-131b-4fef-aa2b-4f86c56507b6" >
+		<http:request-connection protocol="HTTPS" host="ms-finance.p.rapidapi.com" />
+		<http:default-headers >
+			<http:default-header key="X-RapidAPI-Key" value="de600e92f3mshbbe18cbc3b5395dp17d93ajsn7973ab2bbec3" />
+			<http:default-header key="X-RapidAPI-Host" value="ms-finance.p.rapidapi.com" />
+		</http:default-headers>
+	</http:request-config>
+	<flow name="Get_All_News" doc:id="cc0dba89-097d-465f-a814-a0261bba6f6d" >
+		<try doc:name="Try" doc:id="82a51487-e1d3-4e5c-bb3d-98107c1885a4" >
+			<http:request method="GET" doc:name="Request" doc:id="b193388f-ec36-48e9-890e-225991671f84" config-ref="HTTP_Get_All_configuration" path="/news/list">
+		</http:request>
+			<error-handler>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="772fe8e9-b315-4ce6-b5a2-593f4d8a972e" >
+					<set-payload value="#[payload]" doc:name="Set Payload" doc:id="791d12d1-57ca-4d04-8662-4f30382f03c0" />
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="f21f022a-b781-45b3-a449-ded76b65f061" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+	payload
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="482a2768-5b45-4fb8-86b6-e99dd6345865" >
+				<ee:transform doc:name="Transform Message" doc:id="bcf3d6cc-28a9-4b5b-87f7-1d4a6c27a7da" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+error]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="Get_Details_News" doc:id="fbd71c4e-bedb-4f88-8ced-6c8b981a05b5" >
+		<try doc:name="Try" doc:id="da3682df-92e7-4a4a-b23f-0a80b96f2d93" >
+			<http:request method="GET" doc:name="Request" doc:id="6fd1b590-70b8-458b-a675-f74e34a69792" config-ref="HTTP_List_Details_configuration" path="/news/get-details">
+			<http:query-params><![CDATA[#[output application/json
+---
+{
+	"id":attributes.queryParams.'id',
+	"sourceId":attributes.queryParams.'sourceId',
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="48040976-0d7f-4587-81cb-d22f3e870d93" >
+					<set-payload value="#[payload]" doc:name="Set Payload" doc:id="26fdcd05-a9e3-4dec-adea-a24d2bd9e483" />
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="c86d4e81-e3fb-499d-b5f0-f7559c3eacb3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a88b3379-1120-44c4-88cc-c1ca04dd5c78">
+				<ee:transform doc:name="Transform Message" doc:id="7b99726f-d52b-431b-87f7-6338706dea66" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+error]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
